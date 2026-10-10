@@ -1,9 +1,10 @@
 // Control & Co-ordination ("ball game"): houd de bal in het midden terwijl hij wegdrijft.
-// Kandidaten melden: links/rechts via draaien (twist) van de stick, op/neer via voor/achter,
+// Kandidaten melden: links/rechts via draaien (twist) van de stick, op/neer via voor/achter.
+// Zonder twist kun je stick links/rechts of de pedalen gebruiken;
 // beide assen voelen "omgekeerd", eerst een korte oefenperiode, daarna ca. 3 minuten gescoord.
 function runBallGame(root) {
   const SKEY = 'cae_ball_settings_v1';
-  let st = { xSrc: 'twist', invX: true, invY: false, level: 2, mode: 'single', duration: 180, practice: 30 };
+  let st = { xSrc: 'roll', invX: false, invY: false, level: 2, mode: 'single', duration: 180, practice: 30 };
   try { st = Object.assign(st, JSON.parse(localStorage.getItem(SKEY) || '{}')); } catch (e) {}
   const saveSt = () => { try { localStorage.setItem(SKEY, JSON.stringify(st)); } catch (e) {} };
 
@@ -29,12 +30,13 @@ function runBallGame(root) {
       U.el('p', {}, 'Een bal drijft steeds van het midden weg. Houd hem zo dicht mogelijk bij het midden met kleine, rustige correcties. Eerst een oefenperiode zonder score, daarna de gescoorde run.'),
       U.el('div', { class: 'grid2' },
         sel('Variant', 'mode', [['single', 'Klassiek: één bal (zoals ADAPT)'], ['dual', 'Stick + pedalen: bal én roerbalk (extra coördinatie)']]),
-        sel('Links/rechts met', 'xSrc', [['twist', 'Twist (stick draaien), zoals gemeld'], ['roll', 'Stick links/rechts'], ['rudder', 'Voetpedalen']]),
+        sel('Links/rechts met', 'xSrc', [['roll', 'Stick links/rechts'], ['rudder', 'Voetpedalen (aparte beweging, lijkt meer op twist)'], ['twist', 'Twist (alleen als je stick kan draaien)']]),
         chk('Links/rechts omkeren', 'invX'),
         chk('Op/neer omkeren (stick naar voren = bal omhoog)', 'invY'),
         sel('Moeilijkheid', 'level', [[1, '1 · Rustig'], [2, '2 · Realistisch'], [3, '3 · Zwaar'], [4, '4 · Extreem']]),
         sel('Duur gescoord', 'duration', [[60, '1 minuut'], [180, '3 minuten (examen)'], [300, '5 minuten']]),
         sel('Oefenperiode', 'practice', [[0, 'Geen'], [15, '15 s'], [30, '30 s'], [60, '60 s']])),
+      U.el('p', { class: 'muted small' }, 'Geen twist op je joystick? Geen probleem. Bij de echte test krijg je de joystick van CAE. Oefen hier met stick links/rechts, en wissel af met de pedalen: dan train je ook dat links/rechts een andere beweging is dan op/neer, net als bij twist. Kies je twist zonder gekoppelde twist-as, dan valt de app automatisch terug op stick links/rechts.'),
       U.el('p', { class: 'muted small' }, 'Tip: de echte test zet je niet zelf in. Wissel dus ook eens van instelling (omkeren aan/uit), zodat je snel kunt wennen aan wat je op de dag krijgt.'),
       U.el('button', { class: 'btn primary', onclick: play }, 'Start'));
   }
@@ -65,7 +67,8 @@ function runBallGame(root) {
       last = now;
       t += dt;
       const s = Input.state();
-      let ux = st.mode === 'dual' ? s.roll : s[st.xSrc];
+      const src = st.mode === 'dual' ? 'roll' : Input.source(st.xSrc, s);
+      let ux = s[src];
       // Standaard: stick naar achteren = bal omhoog, naar voren = bal omlaag (zoals een vliegtuig).
       let uy = s.pitch; // +1 = stick naar achteren
       if (st.invX) ux = -ux;
@@ -95,7 +98,8 @@ function runBallGame(root) {
       const left = total - t;
       info.innerHTML = `<span>${scoring ? 'GESCOORD' : 'OEFENEN'}</span><span>${U.mmss(scoring ? left : st.practice - t)}</span>` +
         (samples ? `<span>Precisie ${Math.round(100 * scoreSum / samples)}%</span>` : '') +
-        (!s[st.mode === 'dual' ? 'rollBound' : st.xSrc + 'Bound'] ? '<span class="warn">Let op: as niet gekoppeld, toetsenbord actief</span>' : '');
+        (src !== st.xSrc && st.mode !== 'dual' ? '<span class="warn">Geen twist gekoppeld, stick links/rechts gebruikt</span>' : '') +
+        (!s[src + 'Bound'] ? '<span class="warn">Let op: as niet gekoppeld, toetsenbord actief</span>' : '');
       if (t >= total) return finish();
       raf = requestAnimationFrame(frame);
     }

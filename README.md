@@ -10,6 +10,7 @@ Geen installatie of internet nodig.
 2. Sluit joystick, pedalen en eventueel throttle aan.
 3. Open `index.html` in **Chrome** of **Edge** (dubbelklikken werkt).
 4. Ga naar **Controller**, druk op een knop van elk apparaat zodat de browser het ziet, en koppel per functie de juiste as.
+   Heeft je joystick geen twist (alleen X, Y en een Z-as voor gas)? Koppel X aan Roll, Y aan Pitch, Z aan Throttle en laat Twist leeg.
    Controleer in de live test de richtingen en zet zo nodig "Omkeren" aan.
 
 Liever via een lokale server? `python -m http.server` in deze map en open `http://localhost:8000`.
@@ -23,7 +24,7 @@ Liever via een lokale server? `python -m http.server` in deze map en open `http:
 | Technical reasoning | meerkeuze technisch redeneren met tekeningen (tandwielen, katrollen, hefbomen) | examen + oefenen |
 | Cognitive | 5 seconden geheugen, patronen, reeksen, mentale rotatie, koers/zon, instrumenten, snelheid | examen + oefenen |
 | Aviation knowledge | basis luchtvaartkennis (optioneel) | examen + oefenen |
-| Ball game | bal in het midden houden, twist + pitch, assen instelbaar, 3 min gescoord, extra pedaalvariant | psychomotoriek |
+| Ball game | bal in het midden houden met stick, pedalen of twist, assen instelbaar, 3 min gescoord, extra pedaalvariant | psychomotoriek |
 | FAST multitask | route vliegen, groene knop bij verkeer, rode knop bij waypoints, ATC-spraak, vragen, 2 runs | psychomotoriek |
 | Fixed wing | PFD-vliegsimulatie: hoogte, snelheid en koers volgen met stick, throttle en pedalen | psychomotoriek |
 | Stage 3 | competenties, groepsopdracht-tips, interviewvragen met timer | voorbereiding |

@@ -9,7 +9,7 @@ const App = (() => {
     { id: 'technical', group: 'Kennis', title: 'Technical reasoning', time: '20 min · 25 vragen', desc: 'Tandwielen, riemen, hefbomen, katrollen, veren, hydrauliek. Meerkeuze met tekeningen.' },
     { id: 'cognitive', group: 'Cognitief', title: 'Cognitive', time: '15 min · 25 vragen', desc: 'Geheugen (5 s kijken), reeksen, patronen, mentale rotatie, koers en zon, instrumenten, waarnemingssnelheid.' },
     { id: 'aviation', group: 'Kennis', title: 'Aviation knowledge', time: 'optioneel · 20 vragen', desc: 'Basis luchtvaartkennis: principles of flight, meteo, navigatie, air law, CRM. Handig voor het interview.' },
-    { id: 'ball', group: 'Psychomotoriek', title: 'Ball game', time: '3 min gescoord', desc: 'Houd de bal in het midden met twist en pitch (of pedalen). Optioneel extra pedaaltaak.' },
+    { id: 'ball', group: 'Psychomotoriek', title: 'Ball game', time: '3 min gescoord', desc: 'Houd de bal in het midden met stick (of pedalen voor links/rechts). Optioneel extra pedaaltaak.' },
     { id: 'fast', group: 'Psychomotoriek', title: 'FAST multitask', time: '2 runs', desc: 'Route vliegen, verkeer en waypoints melden, ATC luisteren en vragen beantwoorden tegelijk.' },
     { id: 'flight', group: 'Psychomotoriek', title: 'Fixed wing', time: 'tot 15 min', desc: 'Vliegsimulatie: hoogte, snelheid en koers vasthouden met stick, throttle en pedalen.' },
     { id: 'stage3', group: 'Stage 3', title: 'Interview & groepsopdracht', time: 'voorbereiding', desc: 'Competenties, veelgestelde vragen en tips voor de groepsoefening.' },
@@ -97,6 +97,7 @@ const App = (() => {
     const live = U.el('div', { class: 'card' });
     view.append(pads, binds, live);
     binds.append(U.el('p', {}, 'Klik op "Koppel" en beweeg daarna de betreffende as volledig (of druk de knop in). Werkt met meerdere apparaten tegelijk, bijvoorbeeld joystick + losse pedalen + throttle.'),
+      U.el('p', { class: 'muted small' }, 'Joystick met alleen X en Y en een Z-as voor gas? Koppel X aan Roll, Y aan Pitch en Z aan Throttle. Twist kun je leeg laten; de app gebruikt dan stick links/rechts. Gaat het gas de verkeerde kant op, zet dan Omkeren aan bij Throttle.'),
       U.el('p', { class: 'muted small' }, 'Zie je geen apparaat? Druk eerst een knop in op elk apparaat. Browsers tonen controllers pas na de eerste invoer. Chrome en Edge werken het best.'));
     const table = U.el('table', { class: 'tbl' });
     binds.append(table);

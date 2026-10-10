@@ -33,7 +33,7 @@ Uitslag is geslaagd/niet geslaagd binnen een paar dagen, zonder gedetailleerde s
 <h3>Uitrusting</h3>
 <p>Bij de virtuele variant gebruikten kandidaten een laptop, joystick en throttle, plus pen, papier en een formuleblad.
 Of voetpedalen op de dag gebruikt worden is niet bevestigd; de pedalen in deze app zijn dus vooral extra coördinatietraining en handig in de vliegtest.
-Train ook met alleen stick en twist, want dat is wat kandidaten beschrijven.</p>
+Kandidaten beschrijven links/rechts via twist. Heeft je eigen stick geen twist, oefen dan met stick links/rechts en wissel af met de pedalen, zodat je went aan een aparte beweging voor links/rechts.</p>
 
 <h3>Trainingsplan (4 weken)</h3>
 <ul>

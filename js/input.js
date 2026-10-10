@@ -5,9 +5,9 @@ const Input = (() => {
   const FUNCS = {
     pitch:    { label: 'Pitch (stick voor/achter)', type: 'axis' },
     roll:     { label: 'Roll (stick links/rechts)', type: 'axis' },
-    twist:    { label: 'Twist (stick draaien)', type: 'axis' },
+    twist:    { label: 'Twist (stick draaien), optioneel', type: 'axis' },
     rudder:   { label: 'Roer (voetpedalen)', type: 'axis' },
-    throttle: { label: 'Throttle (gashendel)', type: 'axis' },
+    throttle: { label: 'Throttle (gashendel, vaak de Z-as)', type: 'axis' },
     green:    { label: 'Groene knop (verkeer gezien)', type: 'button' },
     red:      { label: 'Rode knop (waypoint / bocht)', type: 'button' },
   };
@@ -144,10 +144,17 @@ const Input = (() => {
   }
   function cancelDetect() { if (detecting) cancelAnimationFrame(detecting); detecting = null; }
 
+  // Kies de stuuras; is die niet gekoppeld maar de stick links/rechts wel, dan valt hij daarop terug.
+  // Zo werkt alles ook met een joystick zonder twist.
+  function source(pref, s) {
+    if (s[pref + 'Bound'] || pref === 'roll') return pref;
+    return s.rollBound ? 'roll' : pref;
+  }
+
   function setInvert(name, inv) { if (cfg.bindings[name]) { cfg.bindings[name].inv = inv; save(); } }
   function clear(name) { delete cfg.bindings[name]; save(); }
   function setDeadzone(v) { cfg.deadzone = v; save(); }
   function consumeKey(code) { const had = pressedOnce.has(code); pressedOnce.delete(code); return had; }
 
-  return { FUNCS, cfg, state, edges, detect, cancelDetect, setInvert, clear, setDeadzone, pads, rawAxis, consumeKey };
+  return { FUNCS, cfg, state, source, edges, detect, cancelDetect, setInvert, clear, setDeadzone, pads, rawAxis, consumeKey };
 })();

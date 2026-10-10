@@ -44,7 +44,7 @@ function runFast(root) {
         <p>Vooraf zie je 5 seconden een briefing. Daar komen later vragen over. Na run 1 volgt run 2 met dezelfde route.</p>` }),
       U.el('div', { class: 'grid2' },
         sel('Duur per run', 'duration', [[120, '2 minuten'], [240, '4 minuten'], [360, '6 minuten']]),
-        sel('Sturen met', 'steer', [['roll', 'Stick links/rechts'], ['twist', 'Twist'], ['rudder', 'Voetpedalen']]),
+        sel('Sturen met', 'steer', [['roll', 'Stick links/rechts'], ['twist', 'Twist (alleen als je stick kan draaien)'], ['rudder', 'Voetpedalen']]),
         sel('Moeilijkheid', 'level', [[1, '1 · Rustig'], [2, '2 · Realistisch'], [3, '3 · Druk']]),
         U.el('label', { class: 'field chk' }, sp, U.el('span', {}, 'ATC-spraak (anders tekst in beeld)'))),
       U.el('button', { class: 'btn primary', onclick: () => { results.length = 0; seed = Math.floor(Math.random() * 1e9); briefing(1); } }, 'Start'));
@@ -188,7 +188,7 @@ function runFast(root) {
       const e = Input.edges();
       // Sturen: koerswijziging evenredig met de uitslag, plus zijwind die je moet corrigeren.
       wind += (-0.4 * wind) * dt + (Math.random() * 2 - 1) * 0.5 * Math.sqrt(dt) * lv;
-      ac.hdg += (s[st.steer] * 0.9) * dt;
+      ac.hdg += (s[Input.source(st.steer, s)] * 0.9) * dt;
       ac.x += (Math.sin(ac.hdg) * speed + Math.cos(ac.hdg) * wind * 12) * dt;
       ac.y += (-Math.cos(ac.hdg) * speed + Math.sin(ac.hdg) * wind * 12) * dt;
 
@@ -243,7 +243,7 @@ function runFast(root) {
 
       draw();
       hud.innerHTML = `<span>Run ${run}</span><span>${U.mmss(st.duration - t)}</span><span>${brief.cs}</span>` +
-        (!s[st.steer + 'Bound'] ? '<span class="warn">Sturen via toetsenbord</span>' : '');
+        (!s[Input.source(st.steer, s) + 'Bound'] ? '<span class="warn">Sturen via toetsenbord</span>' : '');
       if (t >= st.duration) return finish();
       raf = requestAnimationFrame(frame);
     }
